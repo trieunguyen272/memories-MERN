@@ -7,7 +7,7 @@ import postRoutes from "./routes/posts.js";
 
 const app = express();
 
-
+//bodyParser gui yeu cau
 app.use(bodyParse.json({ limit: "30mb", extended: true }));
 app.use(bodyParse.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
