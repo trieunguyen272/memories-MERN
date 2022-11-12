@@ -30,7 +30,7 @@ export default makeStyles({
     overlay2: {
         position: 'absolute',
         top: '20px',
-        right: '20px',
+        right: '5px',
         color: 'white',
     },
     grid: {
@@ -42,7 +42,8 @@ export default makeStyles({
         margin: '20px',
     },
     title: {
-        padding: '0 16px',
+        padding: '0',
+        fontSize: '18px'
     },
     cardActions: {
         padding: '0 16px 8px 16px',
