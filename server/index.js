@@ -2,10 +2,12 @@ import express from "express";
 import bodyParse from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
+import dotenv from "dotenv";
 
 import postRoutes from "./routes/posts.js";
 
 const app = express();
+// dotenv.config();
 
 //bodyParser gui yeu cau
 app.use(bodyParse.json({ limit: "30mb", extended: true }));

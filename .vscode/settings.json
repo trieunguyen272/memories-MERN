@@ -1,3 +1,5 @@
 {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    // "terminal.integrated.automationShell.linux": ""
+    "terminal.integrated.shellArgs.windows": ["-ExecutionPolicy", "Bypass"]
 }
