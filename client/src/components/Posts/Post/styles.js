@@ -6,6 +6,7 @@ export default makeStyles({
     paddingTop: '56.25%',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     backgroundBlendMode: 'darken',
+    display: 'flex',
   },
   border: {
     border: 'solid',
@@ -20,6 +21,7 @@ export default makeStyles({
     borderRadius: '15px',
     height: '100%',
     position: 'relative',
+    margin: '13px',
   },
   overlay: {
     position: 'absolute',
@@ -39,16 +41,21 @@ export default makeStyles({
   details: {
     display: 'flex',
     justifyContent: 'space-between',
-    margin: '15px',
+    margin: '15px 18px',
   },
   title: {
-    padding: '15px',
+    padding: '5px 18px',
     display: 'flex',
     fontSize: '18px',
-    height: '100%',
+    height: '20px',
+  },
+  cardContent: {
+    padding: '10px 18px',
+    display: 'flex',
+    height: '60px',
   },
   cardActions: {
-    padding: '0 16px 8px 16px',
+    padding: '0 15px 8px 15px',
     display: 'flex',
     justifyContent: 'space-between',
   },
