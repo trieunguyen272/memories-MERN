@@ -15,18 +15,55 @@ export const createPost = async (req, res) => {
 };
 
 export const getPosts = async (req, res) => {
-  try {
-    const postMessages = await PostMessage.find();
+  const { page } = req.query; //string
 
-    res.status(200).json(postMessages);
+  try {
+    const LIMIT = 3; //so luong post o moi page
+    const startIndex = (Number(page) - 1) * LIMIT; //get the starting index of every page
+
+    const total = await PostMessage.countDocuments({}); //dem tong so posts
+
+    const posts = await PostMessage.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
+
+    res.status(200).json({ data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
 };
 
+export const getPost = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const post = await PostMessage.findById(id);
+
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const getPostsBySearch = async (req, res) => {
+  console.log('search server');
+  const { searchQuery, tags } = req.query; //query lay cu the chi co search va tags
+
+  try {
+    const title = new RegExp(searchQuery, 'i'); //Test test TEST -> test: chu hoa hay thuong deu ve 1 kieu
+    //cac text field label="Search Memories"
+
+    const posts = await PostMessage.find({ $or: [{ title }, { tags: { $in: tags.split(',') } }] });
+    //tim cac post trung voi title(search) hoac 1 trong cac tag
+    console.log('search data', posts);
+    res.json({ data: posts });
+  } catch (error) {
+    console.log('search loi');
+    error.message;
+  }
+};
+
 export const updatePost = async (req, res) => {
-  const { id: _id } = req.params;
-  const post = req.body; //body luc nay da dc update
+  console.log('update server');
+  const { id: _id } = req.params; //params lay tat ca id
+  const post = req.body; //post luc nay da dc edit tren form
 
   if (!mongoose.Types.ObjectId.isValid(_id)) return res.send('No post with that id');
 
@@ -36,6 +73,7 @@ export const updatePost = async (req, res) => {
 };
 
 export const deletePost = async (req, res) => {
+  console.log('delete server');
   const { id } = req.params;
   //chinh la id ben route
   if (!mongoose.Types.ObjectId.isValid(id)) return res.send('No post with that id');
@@ -48,8 +86,6 @@ export const deletePost = async (req, res) => {
 export const likePost = async (req, res) => {
   const { id } = req.params;
 
-  console.log('userId', req.userId);
-
   if (!req.userId) return res.json({ message: 'Unauthenticated.' });
 
   if (!mongoose.Types.ObjectId.isValid(id)) return res.send('No post with that id');
@@ -59,7 +95,6 @@ export const likePost = async (req, res) => {
   //likes la array luu id da like
   const index = post.likes.findIndex((id) => id === String(req.userId));
 
-  console.log('index', index);
   //neu ko tim thay id nao = userId thi them userId vao
   if (index === -1) {
     //like
